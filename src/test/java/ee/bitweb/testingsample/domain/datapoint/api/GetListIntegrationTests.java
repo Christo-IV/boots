@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,6 +43,7 @@ class GetListIntegrationTests {
         mockMvc.perform(createDefaultRequest())
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0]", aMapWithSize(5)))
                 .andExpect(jsonPath("$[0].id", is(point1.getId().intValue())))
@@ -55,6 +57,19 @@ class GetListIntegrationTests {
                 .andExpect(jsonPath("$[1].value", is("some-value-2")))
                 .andExpect(jsonPath("$[1].comment", is("some-comment-2")))
                 .andExpect(jsonPath("$[1].significance", is(0)));
+    }
+
+
+    @Test
+    @Transactional
+    void onValidRequestAndEmptyDatabaseShouldReturnSuccessfulEmptyResponse() throws Exception {
+        mockMvc.perform(createDefaultRequest())
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$", hasSize(0)));
+
+        assertEquals(0, repository.count());
     }
 
 
