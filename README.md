@@ -22,7 +22,7 @@ Igal päringul võivad tulla erinevad tõrked ja nende tõrgete tagastamiseks on
 
 * HTTP staatus: 400
 * Keha: 
-```
+```JSON
 {
    "id":"HTTP päringu identifikaator",
    "message":"Veateate põhjus",
@@ -39,7 +39,7 @@ Igal päringul võivad tulla erinevad tõrked ja nende tõrgete tagastamiseks on
 
 * HTTP staatus: 404
 * Keha: 
-```
+```JSON
 {
    "id":"HTTP päringu identifikaator",
    "message":"Entity {ressursi tüüp} not found",
@@ -57,7 +57,7 @@ Igal päringul võivad tulla erinevad tõrked ja nende tõrgete tagastamiseks on
 
 * HTTP staatus: 500
 * Keha:
-```
+```JSON
 {
   "id": "HTTP päringu identifikaator",
   "message": "INTERNAL_SERVER_ERROR"
@@ -72,7 +72,7 @@ Igal päringul võivad tulla erinevad tõrked ja nende tõrgete tagastamiseks on
 * Path: "/data-points/import" 
 * Meetod: "POST"
 * Näidus vastuse keha
-```
+```JSON
 [
   {
     "id": 1,
