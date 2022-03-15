@@ -6,6 +6,8 @@ import ee.bitweb.testingsample.domain.datapoint.common.DataPointRepository;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,18 +23,24 @@ import java.util.List;
 public class FindAllDataPointsFeatureUnitTests {
 
     @InjectMocks
-    FindAllDataPointsFeature findAllDataPointsFeature;
+    private FindAllDataPointsFeature findAllDataPointsFeature;
 
     @Mock
     private DataPointRepository repository;
+
+    @Captor
+    private ArgumentCaptor<DataPoint> dataPointArgumentCaptor;
 
     @Test
     void onFindingAtLeastTwoDataPointsReturnSuccess() throws Exception {
         DataPoint firstPoint = DataPointHelper.create(1L);
         DataPoint secondPoint = DataPointHelper.create(2L);
 
-        doReturn(List.of(firstPoint, secondPoint)).when(repository).findAll();
+
         List<DataPoint> dataPoints = findAllDataPointsFeature.find();
+        verify(repository, times(1)).findAll();
+
+        //doReturn(List.of(firstPoint, secondPoint)).when(repository).findAll();
 
         assertAll(
                 () -> assertEquals(2L, dataPoints.size()),

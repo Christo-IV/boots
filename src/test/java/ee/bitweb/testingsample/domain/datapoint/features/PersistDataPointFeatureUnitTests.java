@@ -7,6 +7,8 @@ import ee.bitweb.testingsample.domain.datapoint.common.DataPointRepository;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,16 +25,21 @@ public class PersistDataPointFeatureUnitTests {
     private DataPointRepository repository;
 
     @InjectMocks
-    PersistDataPointFeature persistDataPointFeature;
+    private PersistDataPointFeature persistDataPointFeature;
 
+    @Captor
+    private ArgumentCaptor<DataPoint> dataPointArgumentCaptor;
 
     @Test
     void onValidDataPointShouldSaveAndReturnEntity() throws Exception {
         DataPoint point = DataPointHelper.create(1L);
         point.setId(1L);
 
-        doReturn(point).when(repository).save(point);
+        //doReturn(point).when(repository).save(point);
+
         persistDataPointFeature.save(point);
+
+        verify(repository, times(1)).save(dataPointArgumentCaptor.capture());
 
         assertAll(
                 () -> assertEquals(1L, point.getId()),
